@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Take.Chat.Infrastructure\Take.Chat.Infrastructure.csproj" />
+    <ProjectReference Include="..\Take.Chat.Interfaces.Business\Take.Chat.Interfaces.Business.csproj" />
+    <ProjectReference Include="..\Take.Chat.Interfaces.Repository\Take.Chat.Interfaces.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

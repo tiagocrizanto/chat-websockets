@@ -1,0 +1,33 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/css/login.css" rel="stylesheet" />
+
+    <title>Chat</title>
+</head>
+<body>
+    <!-- The Modal -->
+    <div id="id01" class="modal">
+        <!-- Modal Content -->
+        <form asp-controller="Home" asp-action="Index" method="post">
+            <div class="container">
+                <label for="uname"><b>Choose an username to start a new chat</b></label>
+                <input type="text" placeholder="User" name="userName" id="userName" required>
+                @if (TempData["NAME_IN_USE"] != null)
+                {
+                    <span>You can not use this name, please choose another name.</span>
+                }
+
+                <button type="submit">Start chat!</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

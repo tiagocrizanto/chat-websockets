@@ -1,0 +1,112 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - API", "1 - API", "{0CC4AF06-1A3C-4659-8F11-DB0DAE7710DD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Interfaces", "2 - Interfaces", "{E5BFBB28-C592-4895-B5A0-4B62AFCF5360}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Business", "3 - Business", "{48B4AF05-51ED-4614-8031-45A08BA0D61F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Repository", "4 - Repository", "{ACEB6FF9-E340-4282-AF96-0E0FEEF9D39B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Domain", "5 - Domain", "{A3E1FF05-C5BE-4924-B515-D9EDC6071C8C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Take.Chat.Api", "Take.Chat.Api\Take.Chat.Api.csproj", "{6C4CCCA2-3512-419E-9C17-4C5F2B299272}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Take.Chat.Web", "Take.Chat.Web\Take.Chat.Web.csproj", "{53B9B7C7-A22B-4807-B6AB-33BC5E609DF9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6 - Infrastructure", "6 - Infrastructure", "{C8F83674-13CC-4525-AB27-F09074EE5E49}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Take.Chat.Infrastructure", "Take.Chat.Infrastructure\Take.Chat.Infrastructure.csproj", "{435A79D9-3029-424A-985F-232460FB0FD4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Take.Chat.Interfaces.Business", "Take.Chat.Interfaces.Business\Take.Chat.Interfaces.Business.csproj", "{7C22F04B-E2A3-4B3B-9A79-7FB4FB2DAC3B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Take.Chat.Business", "Take.Chat.Business\Take.Chat.Business.csproj", "{84B07721-6CC1-4D85-9F66-9F2081FE0ED6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Server", "0 - Server", "{5F80FA32-8900-4313-917F-6BFED943D9F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Take.Chat.Server", "Take.Chat.Server\Take.Chat.Server.csproj", "{D97F9DC5-48B7-4E26-B0E4-FB4CAA87A748}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Take.Chat.Repository", "Take.Chat.Repository\Take.Chat.Repository.csproj", "{EE1D1359-D876-4D40-8494-099B663732A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Take.Chat.Interfaces.Repository", "Take.Chat.Interfaces.Repository\Take.Chat.Interfaces.Repository.csproj", "{D491433F-2856-4725-ADDB-63C22F98E9C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Take.Chat.Domain.Entity", "Take.Chat.Domain.Entity\Take.Chat.Domain.Entity.csproj", "{2C20D8DB-C5A8-4F28-BB5A-DB10D8EA40C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Take.Chat.Domain.Dto", "Take.Chat.Domain.Dto\Take.Chat.Domain.Dto.csproj", "{28581B06-DF38-4E40-A342-BAE2D04AD85D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Take.Chat.Business.Test", "Take.Chat.Business.Test\Take.Chat.Business.Test.csproj", "{5918B812-8AF6-42F8-A0EB-2D93F4236565}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6C4CCCA2-3512-419E-9C17-4C5F2B299272}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C4CCCA2-3512-419E-9C17-4C5F2B299272}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C4CCCA2-3512-419E-9C17-4C5F2B299272}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C4CCCA2-3512-419E-9C17-4C5F2B299272}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53B9B7C7-A22B-4807-B6AB-33BC5E609DF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53B9B7C7-A22B-4807-B6AB-33BC5E609DF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53B9B7C7-A22B-4807-B6AB-33BC5E609DF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53B9B7C7-A22B-4807-B6AB-33BC5E609DF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{435A79D9-3029-424A-985F-232460FB0FD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{435A79D9-3029-424A-985F-232460FB0FD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{435A79D9-3029-424A-985F-232460FB0FD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{435A79D9-3029-424A-985F-232460FB0FD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C22F04B-E2A3-4B3B-9A79-7FB4FB2DAC3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C22F04B-E2A3-4B3B-9A79-7FB4FB2DAC3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C22F04B-E2A3-4B3B-9A79-7FB4FB2DAC3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C22F04B-E2A3-4B3B-9A79-7FB4FB2DAC3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84B07721-6CC1-4D85-9F66-9F2081FE0ED6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84B07721-6CC1-4D85-9F66-9F2081FE0ED6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84B07721-6CC1-4D85-9F66-9F2081FE0ED6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84B07721-6CC1-4D85-9F66-9F2081FE0ED6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D97F9DC5-48B7-4E26-B0E4-FB4CAA87A748}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D97F9DC5-48B7-4E26-B0E4-FB4CAA87A748}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D97F9DC5-48B7-4E26-B0E4-FB4CAA87A748}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D97F9DC5-48B7-4E26-B0E4-FB4CAA87A748}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE1D1359-D876-4D40-8494-099B663732A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE1D1359-D876-4D40-8494-099B663732A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE1D1359-D876-4D40-8494-099B663732A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE1D1359-D876-4D40-8494-099B663732A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D491433F-2856-4725-ADDB-63C22F98E9C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D491433F-2856-4725-ADDB-63C22F98E9C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D491433F-2856-4725-ADDB-63C22F98E9C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D491433F-2856-4725-ADDB-63C22F98E9C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C20D8DB-C5A8-4F28-BB5A-DB10D8EA40C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C20D8DB-C5A8-4F28-BB5A-DB10D8EA40C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C20D8DB-C5A8-4F28-BB5A-DB10D8EA40C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C20D8DB-C5A8-4F28-BB5A-DB10D8EA40C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28581B06-DF38-4E40-A342-BAE2D04AD85D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28581B06-DF38-4E40-A342-BAE2D04AD85D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28581B06-DF38-4E40-A342-BAE2D04AD85D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28581B06-DF38-4E40-A342-BAE2D04AD85D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5918B812-8AF6-42F8-A0EB-2D93F4236565}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5918B812-8AF6-42F8-A0EB-2D93F4236565}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5918B812-8AF6-42F8-A0EB-2D93F4236565}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5918B812-8AF6-42F8-A0EB-2D93F4236565}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6C4CCCA2-3512-419E-9C17-4C5F2B299272} = {0CC4AF06-1A3C-4659-8F11-DB0DAE7710DD}
+		{53B9B7C7-A22B-4807-B6AB-33BC5E609DF9} = {0CC4AF06-1A3C-4659-8F11-DB0DAE7710DD}
+		{435A79D9-3029-424A-985F-232460FB0FD4} = {C8F83674-13CC-4525-AB27-F09074EE5E49}
+		{7C22F04B-E2A3-4B3B-9A79-7FB4FB2DAC3B} = {E5BFBB28-C592-4895-B5A0-4B62AFCF5360}
+		{84B07721-6CC1-4D85-9F66-9F2081FE0ED6} = {48B4AF05-51ED-4614-8031-45A08BA0D61F}
+		{D97F9DC5-48B7-4E26-B0E4-FB4CAA87A748} = {5F80FA32-8900-4313-917F-6BFED943D9F1}
+		{EE1D1359-D876-4D40-8494-099B663732A4} = {ACEB6FF9-E340-4282-AF96-0E0FEEF9D39B}
+		{D491433F-2856-4725-ADDB-63C22F98E9C2} = {E5BFBB28-C592-4895-B5A0-4B62AFCF5360}
+		{2C20D8DB-C5A8-4F28-BB5A-DB10D8EA40C1} = {A3E1FF05-C5BE-4924-B515-D9EDC6071C8C}
+		{28581B06-DF38-4E40-A342-BAE2D04AD85D} = {A3E1FF05-C5BE-4924-B515-D9EDC6071C8C}
+		{5918B812-8AF6-42F8-A0EB-2D93F4236565} = {48B4AF05-51ED-4614-8031-45A08BA0D61F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7DD35980-8013-4A8F-836C-9A6C98A87E55}
+	EndGlobalSection
+EndGlobal

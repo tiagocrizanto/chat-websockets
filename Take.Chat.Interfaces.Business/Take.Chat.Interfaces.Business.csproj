@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Take.Chat.Domain.Dto\Take.Chat.Domain.Dto.csproj" />
+    <ProjectReference Include="..\Take.Chat.Domain.Entity\Take.Chat.Domain.Entity.csproj" />
+  </ItemGroup>
+
+</Project>
