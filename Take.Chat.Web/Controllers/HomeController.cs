@@ -23,7 +23,7 @@ namespace Take.Chat.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(string userName)
+        public IActionResult Index(string userName)
         {
             if (chatMessagesBusiness.IsUsernameInUse(userName))
             {
@@ -47,9 +47,9 @@ namespace Take.Chat.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendMessage([FromBody] SendMessageDto messageObj)
+        public async Task<IActionResult> SendMessage([FromBody] SendMessageDto messageObj, [FromBody] string channel)
         {
-            await chatMessagesBusiness.SendMessage(messageObj);
+            await chatMessagesBusiness.SendMessage(messageObj, channel);
             return Ok();
         }
 

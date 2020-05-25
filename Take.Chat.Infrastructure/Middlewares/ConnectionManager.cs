@@ -9,44 +9,60 @@ namespace Take.Chat.Infrastructure.Middlewares
 {
     public class ConnectionManager
     {
-        private static ConcurrentDictionary<string, WebSocket> connections;
+        private static ConcurrentDictionary<string, ConcurrentDictionary<string, WebSocket>> connections;
 
         public ConnectionManager()
         {
             if (connections == null)
-                connections = new ConcurrentDictionary<string, WebSocket>();
+                connections = new ConcurrentDictionary<string, ConcurrentDictionary<string, WebSocket>>();
         }
 
-        public WebSocket GetSocketById(string id)
+        public WebSocket GetSocketById(string channel, string id)
         {
-            return connections.FirstOrDefault(x => x.Key == id).Value;
+            var channelSocket = connections.FirstOrDefault(x => x.Key == channel);
+
+            return connections[channel].FirstOrDefault(x => x.Key == id).Value;
         }
 
-        public ConcurrentDictionary<string, WebSocket> GetAllConnections()
+        public ConcurrentDictionary<string, WebSocket> GetAllConnections(string channel)
         {
-            return connections;
+            return connections[channel];
         }
 
-        public string GetId(WebSocket socket)
+        public string GetId(WebSocket socket, string channel)
         {
-            return connections.FirstOrDefault(x => x.Value == socket).Key;
+            return connections[channel].FirstOrDefault(x => x.Value == socket).Key;
         }
 
-        public async Task RemoveSocketAsync(string id)
+        public async Task RemoveSocketAsync(string id, string channel)
         {
-            connections.TryRemove(id, out WebSocket socket);
+            connections[channel].TryRemove(id, out WebSocket socket);
             await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Connection closed", CancellationToken.None);
         }
 
-        public void AddSocket(WebSocket socket)
+        public void AddSocket(WebSocket socket, string channel)
         {
             var socketId = Guid.NewGuid().ToString();
-            connections.TryAdd(socketId, socket);
+            connections[channel].TryAdd(socketId, socket);
         }
 
-        public void AddSocket(WebSocket socket, string socketId)
+        public void AddSocket(WebSocket socket, string socketId, string channel)
         {
-            connections.TryAdd(socketId, socket);
+            if (connections.ContainsKey(channel))
+            {
+                connections[channel].TryAdd(socketId, socket);
+            }
+            else
+            {
+                AddChannel(socket, socketId, channel);
+            }
+        }
+
+        public void AddChannel(WebSocket socket, string socketId, string channelName)
+        {
+            var socketChannel = new ConcurrentDictionary<string, WebSocket>();
+            socketChannel.TryAdd(socketId, socket);
+            connections.TryAdd(channelName, socketChannel);
         }
     }
 }

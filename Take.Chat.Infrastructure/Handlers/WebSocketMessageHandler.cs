@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net.WebSockets;
-using System.Text;
+﻿using System.Net.WebSockets;
 using System.Threading.Tasks;
 using Take.Chat.Infrastructure.Middlewares;
 
@@ -14,18 +12,13 @@ namespace Take.Chat.Infrastructure.Handlers
 
         }
 
-        public override async Task OnConnected(WebSocket socket, string socketId)
+        public override async Task OnConnected(WebSocket socket, string socketId, string channel)
         {
-            await base.OnConnected(socket, socketId);
-            //string socketId = Connections.GetId(socket);
-            //await SendMessageToAll($"{socketId} joined the room");
+            await base.OnConnected(socket, socketId, channel);
         }
 
         public override async Task Receive(WebSocket socket, WebSocketReceiveResult result, byte[] buffer)
         {
-            string socketId = Connections.GetId(socket);
-            //var message = $"{socketId} said {Encoding.UTF8.GetString(buffer, 0, result.Count)}";
-            //await SendMessageToAll(message);
         }
     }
 }

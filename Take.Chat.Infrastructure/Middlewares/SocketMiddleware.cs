@@ -23,15 +23,14 @@ namespace Take.Chat.Infrastructure.Middlewares
             if (!context.WebSockets.IsWebSocketRequest)
                 return;
 
-
             var socket = await context.WebSockets.AcceptWebSocketAsync();
             string userName = context.Request.Query["userName"];
+            string channel = context.Request.Query["channel"];
 
-            if (string.IsNullOrEmpty(userName))
-                await _webSocketHandler.OnConnected(socket);
-            else
+            if (string.IsNullOrEmpty(channel))
                 await _webSocketHandler.OnConnected(socket, userName);
-
+            else
+                await _webSocketHandler.OnConnected(socket, userName, channel);
 
             await Receive(socket, async (result, buffer) =>
             {
@@ -42,7 +41,7 @@ namespace Take.Chat.Infrastructure.Middlewares
                 }
                 else if (result.MessageType == WebSocketMessageType.Close)
                 {
-                    await _webSocketHandler.OnDisconnected(socket);
+                    await _webSocketHandler.OnDisconnected(socket, channel);
                     return;
                 }
 

@@ -16,25 +16,25 @@ namespace Take.Chat.Infrastructure.Handlers
             Connections = connections;
         }
 
-        public virtual async Task OnConnected(WebSocket socket)
+        public virtual async Task OnConnected(WebSocket socket, string userName)
         {
             await Task.Run(() =>
             {
-                Connections.AddSocket(socket);
+                Connections.AddSocket(socket, userName, "#general");
             });
         }
 
-        public virtual async Task OnConnected(WebSocket socket, string socketId)
+        public virtual async Task OnConnected(WebSocket socket, string socketId, string channel)
         {
             await Task.Run(() =>
             {
-                Connections.AddSocket(socket, socketId);
+                Connections.AddSocket(socket, socketId, channel);
             });
         }
 
-        public virtual async Task OnDisconnected(WebSocket socket)
+        public virtual async Task OnDisconnected(WebSocket socket, string channel)
         {
-            await Connections.RemoveSocketAsync(Connections.GetId(socket));
+            await Connections.RemoveSocketAsync(Connections.GetId(socket, channel), channel);
         }
 
         public async Task SendMessage(WebSocket socket, string message)
@@ -47,15 +47,15 @@ namespace Take.Chat.Infrastructure.Handlers
             await socket.SendAsync(new ArraySegment<byte>(Encoding.ASCII.GetBytes(message), 0, message.Length), WebSocketMessageType.Text, true, CancellationToken.None);
         }
 
-        public async Task SendMessage(string id, string message)
+        public async Task SendMessage(string id, string message, string channel)
         {
-            var socket = Connections.GetSocketById(id);
+            var socket = Connections.GetSocketById(channel, id);
             await SendMessage(socket, message);
         }
 
-        public async Task SendMessageToAll(string message)
+        public async Task SendMessageToAll(string message, string channel)
         {
-            foreach (var con in Connections.GetAllConnections())
+            foreach (var con in Connections.GetAllConnections(channel))
             {
                 await SendMessage(con.Value, message);
             }

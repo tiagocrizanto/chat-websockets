@@ -94,25 +94,25 @@
             let userName = '@Model';
             let protocol = location.protocol === "https:" ? "wss:" : "ws:";
             let chatSocket = new WebSocket(`${protocol}//${window.location.host}/chat?userName=${userName}`);
-            let usersSocket = new WebSocket(`${protocol}//${window.location.host}/users?socketType=chatList`);
+            // let usersSocket = new WebSocket(`${protocol}//${window.location.host}/users?socketType=chatList`);
 
             $('#action_menu_btn').click(function () {
                 $('.action_menu').toggle();
             });
 
-            usersSocket.onopen = e => {
-                updateUsersList();
-            };
+            //usersSocket.onopen = e => {
+            //    updateUsersList();
+            //};
 
-            usersSocket.onmessage = e => {
-                debugger;
-                if (e.Data) {
-                    const result = JSON.parse(e.Data);
-                    result.forEach((item) => {
-                        $("#contacts").append(item);
-                    })
-                }
-            };
+            //usersSocket.onmessage = e => {
+            //    debugger;
+            //    if (e.Data) {
+            //        const result = JSON.parse(e.Data);
+            //        result.forEach((item) => {
+            //            $("#contacts").append(item);
+            //        })
+            //    }
+            //};
 
             window.onbeforeunload = () => {
                 const messageObj = {

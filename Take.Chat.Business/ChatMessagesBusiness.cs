@@ -50,8 +50,13 @@ namespace Take.Chat.Business
             return false;
         }
 
-        public async Task SendMessage(SendMessageDto message)
+        public async Task SendMessage(SendMessageDto message, string channel)
         {
+            if (string.IsNullOrEmpty(channel))
+            {
+                channel = "#general";
+            }
+
             if(message.Message.StartsWith("/"))
             {
                 string[] strMessage = message.Message.Split(' ');
@@ -60,13 +65,13 @@ namespace Take.Chat.Business
                 {
                     case "/to":
                         message.Command = "/to";
-                        await webSocketMessageHandler.SendMessageToAll(JsonSerializer.Serialize(message));
+                        await webSocketMessageHandler.SendMessageToAll(JsonSerializer.Serialize(message), channel);
                         
                         break;
                     case "/private":
                         message.Command = "/private";
-                        await webSocketMessageHandler.SendMessage(strMessage[1], JsonSerializer.Serialize(message));
-                        await webSocketMessageHandler.SendMessage(message.UserName, JsonSerializer.Serialize(message));
+                        await webSocketMessageHandler.SendMessage(strMessage[1], JsonSerializer.Serialize(message), channel);
+                        await webSocketMessageHandler.SendMessage(message.UserName, JsonSerializer.Serialize(message), channel);
 
                         break;
                     default:
@@ -75,7 +80,7 @@ namespace Take.Chat.Business
             }
             else
             {
-                await webSocketMessageHandler.SendMessageToAll(JsonSerializer.Serialize(message));
+                await webSocketMessageHandler.SendMessageToAll(JsonSerializer.Serialize(message), channel);
             }
         }
     }

@@ -1,11 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Collections.Generic;
 using System.Net.WebSockets;
 using Take.Chat.Business;
+using Take.Chat.Infrastructure.Constants;
 using Take.Chat.Infrastructure.Handlers;
 using Take.Chat.Interfaces.Business;
 using Take.Chat.Interfaces.Repository;
@@ -34,7 +37,7 @@ namespace Take.Chat.Web
             services.AddWebSocketManager();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider, IMemoryCache cache)
         {
             if (env.IsDevelopment())
             {
@@ -62,6 +65,11 @@ namespace Take.Chat.Web
             app.MapSockets("/chat", serviceProvider.GetService<WebSocketMessageHandler>());
             app.MapSockets("/users", serviceProvider.GetService<WebSocketMessageHandler>());
             app.UseStaticFiles();
+
+            //Default channels load
+            var entryOptions = new MemoryCacheEntryOptions().SetPriority(CacheItemPriority.NeverRemove);
+            var defaultChannels = new List<string> { "#general", "#teste" };
+            cache.Set(CacheKeys.AVAILABLE_CHANNELS, defaultChannels);
         }
     }
 }
