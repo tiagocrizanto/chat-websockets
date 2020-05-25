@@ -27,7 +27,7 @@
             <div class="col-md-4 col-xl-3 chat">
                 <div class="card mb-sm-3 mb-md-0 contacts_card">
                     <div class="card-body contacts_body">
-                        <ui id="contacts" class="contacts">
+                        <ui id="channels" class="contacts">
 
                         </ui>
                     </div>
@@ -45,7 +45,7 @@
                         </div>
                         <div class="d-flex bd-highlight">
                             <div class="user_info">
-                                <span>Global chat</span>
+                                <span id="channelRoom">Channel: #general</span>
                             </div>
                         </div>
                     </div>
@@ -78,72 +78,57 @@
             + '</div >'
             + '</div >';
 
-        let connectedUser = '<li id=[id] class="active">'
+        let channelItem = '<li class="active channelSelect" onClick=changeChannel("[channel]") style="cursor: pointer">'
             + '<div class="d-flex bd-highlight">'
-            + '<div class="img_cont">'
-            + '<img src="/images/avatar.png" class="rounded-circle user_img">'
-            + '</div>'
             + '<div class="user_info">'
-            + '<span>[userName]</span>'
+            + '<span>[channel]</span>'
             + '</div>'
             + '</div>'
             + '</li >';
 
-        $(function () {
+        let userName = '@Model';
+        let protocol = location.protocol === "https:" ? "wss:" : "ws:";
+        let channel = "#general";
+        let chatSocket = new WebSocket(`${protocol}//${window.location.host}/chat?userName=${userName}`);
 
-            let userName = '@Model';
-            let protocol = location.protocol === "https:" ? "wss:" : "ws:";
-            let chatSocket = new WebSocket(`${protocol}//${window.location.host}/chat?userName=${userName}`);
-            // let usersSocket = new WebSocket(`${protocol}//${window.location.host}/users?socketType=chatList`);
+        $(function () {
+            getChatChannels();
 
             $('#action_menu_btn').click(function () {
                 $('.action_menu').toggle();
             });
 
-            //usersSocket.onopen = e => {
-            //    updateUsersList();
-            //};
-
-            //usersSocket.onmessage = e => {
-            //    debugger;
-            //    if (e.Data) {
-            //        const result = JSON.parse(e.Data);
-            //        result.forEach((item) => {
-            //            $("#contacts").append(item);
-            //        })
-            //    }
-            //};
-
             window.onbeforeunload = () => {
-                const messageObj = {
-                    userName: userName,
-                    message: 'Saiu da sala'
-                };
-                sendMessage(messageObj);
-                chatSocket.close();
-                usersSocket.close();
-                logoff();
+                //const messageObj = {
+                //    userName: userName,
+                //    message: 'Saiu da sala'
+                //};
+                //sendMessage(messageObj);
+                //usersSocket.close();
+                //logoff();
             };
 
             chatSocket.onmessage = (e) => {
                 let message = JSON.parse(e.data);
-                if (message.UserName === userName) {
-                    $('#msgs').append(sendMessageTemplate.replace('[text]', message.Message).replace('[userName]', message.UserName));
-                } else {
-                    if (message.Command === null) {
-                        $('#msgs').append(receiveMessageTemplate.replace('[text]', message.Message).replace('[userName]', message.UserName));
+                if (message.Channel === channel) {
+                    if (message.UserName === userName) {
+                        $('#msgs').append(sendMessageTemplate.replace('[text]', message.Message).replace('[userName]', message.UserName));
                     } else {
-                        const strMessage = message.Message.split(' ');
-                        const commandLength = (`${strMessage[0]}" "${strMessage[1]}`).length;
-                        message.Message = message.Message.substring(commandLength - 1);
+                        if (message.Command === null) {
+                            $('#msgs').append(receiveMessageTemplate.replace('[text]', message.Message).replace('[userName]', message.UserName));
+                        } else {
+                            const strMessage = message.Message.split(' ');
+                            const commandLength = (`${strMessage[0]}" "${strMessage[1]}`).length;
+                            message.Message = message.Message.substring(commandLength - 1);
 
-                        if (message.Command === "/to") {
-                            message.UserName = `${message.UserName} sends to ${strMessage[1]}`;
-                        } else if (message.Command === "/private" && message.userName !== userName) {
-                            message.UserName = `${message.UserName} sends a private message`;
+                            if (message.Command === "/to") {
+                                message.UserName = `${message.UserName} sends to ${strMessage[1]}`;
+                            } else if (message.Command === "/private" && message.userName !== userName) {
+                                message.UserName = `${message.UserName} sends a private message`;
+                            }
+
+                            $('#msgs').append(receiveMessageTemplate.replace('[text]', message.Message).replace('[userName]', message.UserName));
                         }
-
-                        $('#msgs').append(receiveMessageTemplate.replace('[text]', message.Message).replace('[userName]', message.UserName));
                     }
                 }
             };
@@ -161,7 +146,8 @@
 
                 const messageObj = {
                     userName: userName,
-                    message: $('#MessageField').val()
+                    message: $('#MessageField').val(),
+                    channel: channel
                 }
 
                 sendMessage(messageObj);
@@ -176,15 +162,17 @@
             $("#sendMessage").click(() => {
                 const messageObj = {
                     userName: userName,
-                    message: $('#MessageField').val()
+                    message: $('#MessageField').val(),
+                    channel: channel
                 }
 
                 sendMessage(messageObj);
 
                 $('#MessageField').val('');
             });
+        });
 
-            const sendMessage = (messageObj) => {
+        const sendMessage = (messageObj) => {
                 $.ajax({
                     type: 'POST',
                     url: '@Url.Action("SendMessage", "Home")',
@@ -212,22 +200,39 @@
             const updateUsersList = () => {
                 $.ajax({
                     type: 'GET',
-                    url: '@Url.Action("ConnectedUsers", "Home")',
-                    data: `userName: ${userName}`,
+                    url: '@Url.Action("channelItems", "Home")',
+                    data: `{userName: ${userName}}`,
                     contentType: "application/json; charset=utf-8",
                     success: (response) => {
-                        debugger;
                         $("#contacts").html("");
                         let usersOnline = [];
                         response.forEach((item) => {
-                            usersOnline.push(connectedUser.replace('[userName]', item.name).replace('[id]', item.id));
+                            usersOnline.push(channelItem.replace('[userName]', item.name).replace('[id]', item.id));
                         });
                         usersSocket.send(JSON.stringify(usersOnline));
                         usersSocket.send("teste");
                     }
                 });
             };
-        });
+
+            const getChatChannels = () => {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("ChatChannels", "Home")',
+                    contentType: "application/json; charset=utf-8",
+                    success: (response) => {
+                        $("#channels").html("");
+                        response.forEach((item) => {
+                            $("#channels").append($.parseHTML(channelItem.replace('[channel]', item).replace('[channel]', item)));
+                        });
+                    }
+                });
+        };
+
+        const changeChannel = (e) => {
+            channel = e;
+            $("#channelRoom").text(`Channel: ${e}`)
+        };
     </script>
 </body>
 </html>

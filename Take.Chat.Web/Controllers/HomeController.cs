@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Security.Policy;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Take.Chat.Domain.Dto;
@@ -11,10 +13,12 @@ namespace Take.Chat.Web.Controllers
     {
         private readonly IChatMessagesBusiness chatMessagesBusiness;
         private readonly IChatUserBusiness chatUserBusiness;
-        public HomeController(IChatMessagesBusiness chatMessagesBusiness, IChatUserBusiness chatUserBusiness)
+        private readonly IChannelBusiness channelBusiness;
+        public HomeController(IChatMessagesBusiness chatMessagesBusiness, IChatUserBusiness chatUserBusiness, IChannelBusiness channelBusiness)
         {
             this.chatMessagesBusiness = chatMessagesBusiness;
             this.chatUserBusiness = chatUserBusiness;
+            this.channelBusiness = channelBusiness;
         }
 
         public IActionResult Index()
@@ -47,9 +51,9 @@ namespace Take.Chat.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendMessage([FromBody] SendMessageDto messageObj, [FromBody] string channel)
+        public async Task<IActionResult> SendMessage([FromBody] SendMessageDto messageObj)
         {
-            await chatMessagesBusiness.SendMessage(messageObj, channel);
+            await chatMessagesBusiness.SendMessage(messageObj);
             return Ok();
         }
 
@@ -64,6 +68,14 @@ namespace Take.Chat.Web.Controllers
         public JsonResult ConnectedUsers()
         {
             return Json(chatUserBusiness.GetAllChatUsers());
+        }
+
+        [HttpGet]
+        public JsonResult ChatChannels()
+        {
+            IList<string> channels = channelBusiness.GetAllChannels();
+
+            return Json(channels);
         }
     }
 }

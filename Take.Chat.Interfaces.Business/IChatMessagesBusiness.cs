@@ -6,7 +6,7 @@ namespace Take.Chat.Interfaces.Business
 {
     public interface IChatMessagesBusiness
     {
-        Task SendMessage(SendMessageDto message, string channel);
+        Task SendMessage(SendMessageDto message);
         void AddUserToChat(ChatUsersDto chatUser);
         bool IsUsernameInUse(string userName);
     }

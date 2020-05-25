@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.WebSockets;
-using System.Text;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Take.Chat.Business.Mappers;
 using Take.Chat.Domain.Dto;
 using Take.Chat.Domain.Entity;
-using Take.Chat.Interfaces.Business;
-using Take.Chat.Interfaces.Repository;
 using Take.Chat.Infrastructure.Handlers;
 using Take.Chat.Infrastructure.Middlewares;
+using Take.Chat.Interfaces.Business;
+using Take.Chat.Interfaces.Repository;
 
 namespace Take.Chat.Business
 {
@@ -22,8 +21,7 @@ namespace Take.Chat.Business
         private WebSocketMessageHandler webSocketMessageHandler;
         private ConnectionManager connectionManager;
 
-        public ChatMessagesBusiness(IChatUsersRepository chatUsersRepository, WebSocketMessageHandler webSocketMessageHandler,
-            ConnectionManager connectionManager)
+        public ChatMessagesBusiness(IChatUsersRepository chatUsersRepository, WebSocketMessageHandler webSocketMessageHandler, ConnectionManager connectionManager)
         {
             this.chatUsersRepository = chatUsersRepository;
             this.webSocketMessageHandler = webSocketMessageHandler;
@@ -50,13 +48,8 @@ namespace Take.Chat.Business
             return false;
         }
 
-        public async Task SendMessage(SendMessageDto message, string channel)
+        public async Task SendMessage(SendMessageDto message)
         {
-            if (string.IsNullOrEmpty(channel))
-            {
-                channel = "#general";
-            }
-
             if(message.Message.StartsWith("/"))
             {
                 string[] strMessage = message.Message.Split(' ');
@@ -65,13 +58,13 @@ namespace Take.Chat.Business
                 {
                     case "/to":
                         message.Command = "/to";
-                        await webSocketMessageHandler.SendMessageToAll(JsonSerializer.Serialize(message), channel);
+                        await webSocketMessageHandler.SendMessageToAll(JsonSerializer.Serialize(message), message.Channel);
                         
                         break;
                     case "/private":
                         message.Command = "/private";
-                        await webSocketMessageHandler.SendMessage(strMessage[1], JsonSerializer.Serialize(message), channel);
-                        await webSocketMessageHandler.SendMessage(message.UserName, JsonSerializer.Serialize(message), channel);
+                        await webSocketMessageHandler.SendMessage(strMessage[1], JsonSerializer.Serialize(message), message.Channel);
+                        await webSocketMessageHandler.SendMessage(message.UserName, JsonSerializer.Serialize(message), message.Channel);
 
                         break;
                     default:
@@ -80,8 +73,15 @@ namespace Take.Chat.Business
             }
             else
             {
-                await webSocketMessageHandler.SendMessageToAll(JsonSerializer.Serialize(message), channel);
+                await webSocketMessageHandler.SendMessageToAll(JsonSerializer.Serialize(message), message.Channel);
             }
+        }
+
+        public async Task CreateChannel(string channel)
+        {
+            //var clientWebSocket = new ClientWebSocket();
+            //await clientWebSocket.ConnectAsync(new Uri("ws://localhost:5000/chat"), CancellationToken.None);
+            //connectionManager.AddChannel(null, )
         }
     }
 }

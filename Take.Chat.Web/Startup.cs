@@ -28,12 +28,16 @@ namespace Take.Chat.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddMvc();
+            var mvcBuilder = services.AddMvc();
+#if DEBUG
+            mvcBuilder.AddRazorRuntimeCompilation();
+#endif
             services.AddMemoryCache();
-
             services.AddTransient<IChatMessagesBusiness, ChatMessagesBusiness>();
+            services.AddTransient<IChannelBusiness, ChannelBusiness>();
             services.AddTransient<IChatUserBusiness, ChatUserBusiness>();
             services.AddTransient<IChatUsersRepository, ChatUserRepository>();
+            services.AddTransient<IChannelRepository, ChannelRepository>();
             services.AddWebSocketManager();
         }
 
@@ -62,14 +66,16 @@ namespace Take.Chat.Web
             });
 
             app.UseWebSockets();
-            app.MapSockets("/chat", serviceProvider.GetService<WebSocketMessageHandler>());
-            app.MapSockets("/users", serviceProvider.GetService<WebSocketMessageHandler>());
             app.UseStaticFiles();
 
             //Default channels load
             var entryOptions = new MemoryCacheEntryOptions().SetPriority(CacheItemPriority.NeverRemove);
-            var defaultChannels = new List<string> { "#general", "#teste" };
-            cache.Set(CacheKeys.AVAILABLE_CHANNELS, defaultChannels);
+            var defaultChannels = new List<string> { "#general", "#NetCore" };
+            cache.Set(CacheKeys.CHAT_CHANNELS, defaultChannels);
+
+            app.MapSockets("/chat", serviceProvider.GetService<WebSocketMessageHandler>());
+            app.MapSockets("/users", serviceProvider.GetService<WebSocketMessageHandler>());
+            app.MapSockets("/channels", serviceProvider.GetService<WebSocketMessageHandler>());
         }
     }
 }

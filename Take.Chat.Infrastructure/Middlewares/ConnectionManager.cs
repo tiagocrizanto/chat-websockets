@@ -29,6 +29,11 @@ namespace Take.Chat.Infrastructure.Middlewares
             return connections[channel];
         }
 
+        public ConcurrentDictionary<string, ConcurrentDictionary<string, WebSocket>> GetAllChannels()
+        {
+            return connections;
+        }
+
         public string GetId(WebSocket socket, string channel)
         {
             return connections[channel].FirstOrDefault(x => x.Value == socket).Key;
@@ -48,13 +53,16 @@ namespace Take.Chat.Infrastructure.Middlewares
 
         public void AddSocket(WebSocket socket, string socketId, string channel)
         {
-            if (connections.ContainsKey(channel))
+            if (socket != null)
             {
-                connections[channel].TryAdd(socketId, socket);
-            }
-            else
-            {
-                AddChannel(socket, socketId, channel);
+                if (connections.ContainsKey(channel))
+                {
+                    connections[channel].TryAdd(socketId, socket);
+                }
+                else
+                {
+                    AddChannel(socket, socketId, channel);
+                }
             }
         }
 

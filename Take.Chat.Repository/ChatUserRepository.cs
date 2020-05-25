@@ -16,7 +16,7 @@ namespace Take.Chat.Repository
         }
 
         public void AddUserToChat(IEnumerable<ChatUsers> chatUser) => memoryCache.Set(CacheKeys.CONNECTED_USERS, chatUser);
-
+        
         public List<ChatUsers> GetAllChatUsers() => memoryCache.Get<List<ChatUsers>>(CacheKeys.CONNECTED_USERS);
         public ChatUsers GetUserByLogin(string userName)
         {

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
@@ -44,7 +47,17 @@ namespace Take.Chat.Infrastructure.Handlers
                 return;
             }
 
-            await socket.SendAsync(new ArraySegment<byte>(Encoding.ASCII.GetBytes(message), 0, message.Length), WebSocketMessageType.Text, true, CancellationToken.None);
+            try
+            {
+                await socket.SendAsync(new ArraySegment<byte>(Encoding.ASCII.GetBytes(message), 0, message.Length), WebSocketMessageType.Text, true, CancellationToken.None);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
         }
 
         public async Task SendMessage(string id, string message, string channel)
@@ -58,6 +71,17 @@ namespace Take.Chat.Infrastructure.Handlers
             foreach (var con in Connections.GetAllConnections(channel))
             {
                 await SendMessage(con.Value, message);
+            }
+        }
+
+        public async Task UpdateChannelList(IEnumerable<string> channels, string serializedChannels)
+        {
+            foreach (var channel in channels)
+            {
+                foreach (var con in Connections.GetAllConnections(channel))
+                {
+                    await SendMessage(con.Value, serializedChannels);
+                }
             }
         }
 
