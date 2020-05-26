@@ -16,6 +16,12 @@ namespace Take.Chat.Repository
 
         public IList<string> GetAllChannels() => memoryCache.Get<IList<string>>(CacheKeys.CHAT_CHANNELS);
 
-        public void AddChannel(string channel) => memoryCache.Set(CacheKeys.CHAT_CHANNELS, channel);
+        public void AddChannel(string channel)
+        {
+            //Recuperar todos os dados para não sobrescrever os dados do memory cache
+            var allChannels = GetAllChannels();
+            allChannels.Add(channel);
+            memoryCache.Set(CacheKeys.CHAT_CHANNELS, allChannels);
+        }
     }
 }

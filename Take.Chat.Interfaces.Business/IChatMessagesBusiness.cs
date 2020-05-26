@@ -9,5 +9,6 @@ namespace Take.Chat.Interfaces.Business
         Task SendMessage(SendMessageDto message);
         void AddUserToChat(ChatUsersDto chatUser);
         bool IsUsernameInUse(string userName);
+        void CreateChannel(string channel);
     }
 }

@@ -18,14 +18,17 @@ namespace Take.Chat.Business
     public class ChatMessagesBusiness : IChatMessagesBusiness
     {
         private readonly IChatUsersRepository chatUsersRepository;
+        private readonly IChannelRepository channelRepository;
         private WebSocketMessageHandler webSocketMessageHandler;
         private ConnectionManager connectionManager;
 
-        public ChatMessagesBusiness(IChatUsersRepository chatUsersRepository, WebSocketMessageHandler webSocketMessageHandler, ConnectionManager connectionManager)
+        public ChatMessagesBusiness(IChatUsersRepository chatUsersRepository, WebSocketMessageHandler webSocketMessageHandler, ConnectionManager connectionManager,
+            IChannelRepository channelRepository)
         {
             this.chatUsersRepository = chatUsersRepository;
             this.webSocketMessageHandler = webSocketMessageHandler;
             this.connectionManager = connectionManager;
+            this.channelRepository = channelRepository;
         }
 
         public void AddUserToChat(ChatUsersDto chatUser)
@@ -77,11 +80,16 @@ namespace Take.Chat.Business
             }
         }
 
-        public async Task CreateChannel(string channel)
+        public void CreateChannel(string channel)
         {
-            //var clientWebSocket = new ClientWebSocket();
-            //await clientWebSocket.ConnectAsync(new Uri("ws://localhost:5000/chat"), CancellationToken.None);
-            //connectionManager.AddChannel(null, )
+            channelRepository.AddChannel(channel);
+            var c = channelRepository.GetAllChannels().FirstOrDefault();
+            var connections = connectionManager.GetAllConnections(c);
+
+            foreach (var conn in connections)
+            {
+                connectionManager.AddSocket(conn.Value, conn.Key, channel);
+            }
         }
     }
 }

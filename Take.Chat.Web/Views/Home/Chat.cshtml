@@ -82,11 +82,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" id="txtNewRoom" />
+                    <input type="text" id="txtNewChannel" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="btnCreateRoom">Create</button>
+                    <button type="button" class="btn btn-primary" id="btnCreateChannel">Create</button>
                 </div>
             </div>
         </div>
@@ -199,66 +199,78 @@
                 $('#MessageField').val('');
             });
 
-            $("#btnCreateRoom").click(() => {
-                alert('');
+            $("#btnCreateChannel").click(() => {
+                var newChannel = {
+                    ChannelName: $("#txtNewChannel").val()
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("CreateChannel", "Home")',
+                    data: JSON.stringify(newChannel),
+                    contentType: "application/json; charset=utf-8",
+                    success: (xhr) => {
+                        location.reload();
+                    }
+                });
             })
         });
 
         const sendMessage = (messageObj) => {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("SendMessage", "Home")',
-                    data: JSON.stringify(messageObj),
-                    contentType: "application/json; charset=utf-8",
-                    error: (xhr) => {
-                        alert("Error on sendt your message");
-                    }
-                });
-            }
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("SendMessage", "Home")',
+                data: JSON.stringify(messageObj),
+                contentType: "application/json; charset=utf-8",
+                error: (xhr) => {
+                    alert("Error on sendt your message");
+                }
+            });
+        }
 
-            const logoff = () => {
-                $.ajax({
-                    type: 'GET',
-                    url: '@Url.Action("Logoff", "Home")',
-                    data: { 'userName': userName },
-                    contentType: "application/json; charset=utf-8",
-                    success: (xhr) => {
-                        chatSocket.close();
-                        location.href = "/";
-                    }
-                });
-            };
+        const logoff = () => {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("Logoff", "Home")',
+                data: { 'userName': userName },
+                contentType: "application/json; charset=utf-8",
+                success: (xhr) => {
+                    chatSocket.close();
+                    location.href = "/";
+                }
+            });
+        };
 
-            const updateUsersList = () => {
-                $.ajax({
-                    type: 'GET',
-                    url: '@Url.Action("channelItems", "Home")',
-                    data: `{userName: ${userName}}`,
-                    contentType: "application/json; charset=utf-8",
-                    success: (response) => {
-                        $("#contacts").html("");
-                        let usersOnline = [];
-                        response.forEach((item) => {
-                            usersOnline.push(channelItem.replace('[userName]', item.name).replace('[id]', item.id));
-                        });
-                        usersSocket.send(JSON.stringify(usersOnline));
-                        usersSocket.send("teste");
-                    }
-                });
-            };
+        const updateUsersList = () => {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("channelItems", "Home")',
+                data: `{userName: ${userName}}`,
+                contentType: "application/json; charset=utf-8",
+                success: (response) => {
+                    $("#contacts").html("");
+                    let usersOnline = [];
+                    response.forEach((item) => {
+                        usersOnline.push(channelItem.replace('[userName]', item.name).replace('[id]', item.id));
+                    });
+                    usersSocket.send(JSON.stringify(usersOnline));
+                    usersSocket.send("teste");
+                }
+            });
+        };
 
-            const getChatChannels = () => {
-                $.ajax({
-                    type: 'GET',
-                    url: '@Url.Action("ChatChannels", "Home")',
-                    contentType: "application/json; charset=utf-8",
-                    success: (response) => {
-                        $("#channels").html("");
-                        response.forEach((item) => {
-                            $("#channels").append($.parseHTML(channelItem.replace('[channel]', item).replace('[channel]', item)));
-                        });
-                    }
-                });
+        const getChatChannels = () => {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("ChatChannels", "Home")',
+                contentType: "application/json; charset=utf-8",
+                success: (response) => {
+                    $("#channels").html("");
+                    response.forEach((item) => {
+                        $("#channels").append($.parseHTML(channelItem.replace('[channel]', item).replace('[channel]', item)));
+                    });
+                }
+            });
         };
 
         const changeChannel = (e) => {

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Security.Policy;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Take.Chat.Domain.Dto;
 using Take.Chat.Interfaces.Business;
@@ -14,6 +12,7 @@ namespace Take.Chat.Web.Controllers
         private readonly IChatMessagesBusiness chatMessagesBusiness;
         private readonly IChatUserBusiness chatUserBusiness;
         private readonly IChannelBusiness channelBusiness;
+
         public HomeController(IChatMessagesBusiness chatMessagesBusiness, IChatUserBusiness chatUserBusiness, IChannelBusiness channelBusiness)
         {
             this.chatMessagesBusiness = chatMessagesBusiness;
@@ -66,10 +65,11 @@ namespace Take.Chat.Web.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        public JsonResult ConnectedUsers()
+        [HttpPost]
+        public IActionResult CreateChannel([FromBody] ChannelDto channel)
         {
-            return Json(chatUserBusiness.GetAllChatUsers());
+            chatMessagesBusiness.CreateChannel(channel.ChannelName);
+            return Ok();
         }
 
         [HttpGet]
