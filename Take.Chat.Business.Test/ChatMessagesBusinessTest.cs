@@ -14,6 +14,7 @@ namespace Take.Chat.Business.Test
     public class ChatMessagesBusinessTest
     {
         private readonly Mock<IChatUsersRepository> chatUsersRepository;
+        private readonly Mock<IChannelRepository> channelRepository;
         private ConnectionManager connectionManager;
         private WebSocketMessageHandler webSocketMessageHandler;
         public ChatMessagesBusinessTest()
@@ -21,6 +22,7 @@ namespace Take.Chat.Business.Test
             connectionManager = new ConnectionManager();
             webSocketMessageHandler = new WebSocketMessageHandler(connectionManager);
             chatUsersRepository = new Mock<IChatUsersRepository>();
+            channelRepository = new Mock<IChannelRepository>();
         }
 
         [Fact(DisplayName = "Used username")]
@@ -45,7 +47,7 @@ namespace Take.Chat.Business.Test
                     Name = "Take"
                 }
             });
-            var chatMessageBusiness = new ChatMessagesBusiness(chatUsersRepository.Object, webSocketMessageHandler, connectionManager);
+            var chatMessageBusiness = new ChatMessagesBusiness(chatUsersRepository.Object, webSocketMessageHandler, connectionManager, channelRepository.Object);
 
             //Act
             bool result = chatMessageBusiness.IsUsernameInUse("Tiago");
@@ -77,7 +79,7 @@ namespace Take.Chat.Business.Test
                 }
             });
 
-            var chatMessageBusiness = new ChatMessagesBusiness(chatUsersRepository.Object, webSocketMessageHandler, connectionManager);
+            var chatMessageBusiness = new ChatMessagesBusiness(chatUsersRepository.Object, webSocketMessageHandler, connectionManager, channelRepository.Object);
 
             //Act
             bool result = chatMessageBusiness.IsUsernameInUse("TakeChat");

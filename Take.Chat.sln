@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Take.Chat.Domain.Dto", "Tak
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Take.Chat.Business.Test", "Take.Chat.Business.Test\Take.Chat.Business.Test.csproj", "{5918B812-8AF6-42F8-A0EB-2D93F4236565}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Take.Chat.Infrastructure.Test", "Take.Chat.Infrastructure.Test\Take.Chat.Infrastructure.Test.csproj", "{BC8BADEE-6CD0-45CF-8BF4-936D9D8EC561}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{5918B812-8AF6-42F8-A0EB-2D93F4236565}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5918B812-8AF6-42F8-A0EB-2D93F4236565}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5918B812-8AF6-42F8-A0EB-2D93F4236565}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC8BADEE-6CD0-45CF-8BF4-936D9D8EC561}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC8BADEE-6CD0-45CF-8BF4-936D9D8EC561}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC8BADEE-6CD0-45CF-8BF4-936D9D8EC561}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC8BADEE-6CD0-45CF-8BF4-936D9D8EC561}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,6 +95,7 @@ Global
 		{2C20D8DB-C5A8-4F28-BB5A-DB10D8EA40C1} = {A3E1FF05-C5BE-4924-B515-D9EDC6071C8C}
 		{28581B06-DF38-4E40-A342-BAE2D04AD85D} = {A3E1FF05-C5BE-4924-B515-D9EDC6071C8C}
 		{5918B812-8AF6-42F8-A0EB-2D93F4236565} = {48B4AF05-51ED-4614-8031-45A08BA0D61F}
+		{BC8BADEE-6CD0-45CF-8BF4-936D9D8EC561} = {C8F83674-13CC-4525-AB27-F09074EE5E49}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7DD35980-8013-4A8F-836C-9A6C98A87E55}
