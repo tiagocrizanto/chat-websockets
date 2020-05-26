@@ -70,7 +70,7 @@ namespace Take.Chat.Web
 
             //Default channels load
             var entryOptions = new MemoryCacheEntryOptions().SetPriority(CacheItemPriority.NeverRemove);
-            var defaultChannels = new List<string> { "#general", "#NetCore" };
+            var defaultChannels = new List<string> { "#general", "#NetCore", "#Azure" };
             cache.Set(CacheKeys.CHAT_CHANNELS, defaultChannels);
 
             app.MapSockets("/chat", serviceProvider.GetService<WebSocketMessageHandler>());
