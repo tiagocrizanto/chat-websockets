@@ -15,7 +15,7 @@
 </head>
 <!--Coded With Love By Mutiullah Samim-->
 <body>
-    
+
     <div class="container-fluid h-100">
         <div class="row justify-content-center">
             <label>If you want send private message to specific user type <b>/private</b> followed by the user name. Example: /private JohnDoe Hello John! How are you?</label>
@@ -27,6 +27,11 @@
             <div class="col-md-4 col-xl-3 chat">
                 <div class="card mb-sm-3 mb-md-0 contacts_card">
                     <div class="card-body contacts_body">
+                        <div class="justify-content-center">
+                            <p>
+                                <button id="btnNewRomm" class="btn btn-primary" data-toggle="modal" data-target="#modal">New channel</button>
+                            </p>
+                        </div>
                         <ui id="channels" class="contacts">
 
                         </ui>
@@ -59,6 +64,26 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create new room</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="txtNewRoom" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnCreateRoom">Create</button>
                 </div>
             </div>
         </div>
@@ -170,6 +195,10 @@
 
                 $('#MessageField').val('');
             });
+
+            $("#btnCreateRoom").click(() => {
+                alert('');
+            })
         });
 
         const sendMessage = (messageObj) => {
@@ -186,9 +215,9 @@
 
             const logoff = () => {
                 $.ajax({
-                    type: 'POST',
+                    type: 'GET',
                     url: '@Url.Action("Logoff", "Home")',
-                    data: `userName: ${userName}`,
+                    data: { 'userName': userName },
                     contentType: "application/json; charset=utf-8",
                     success: (xhr) => {
                         chatSocket.close();

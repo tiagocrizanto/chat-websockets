@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Net.WebSockets;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,13 +37,31 @@ namespace Take.Chat.Infrastructure.Middlewares
 
         public string GetId(WebSocket socket, string channel)
         {
+            if (string.IsNullOrEmpty(channel))
+            {
+                foreach (var item in connections.ToList())
+                {
+                    var conn = item.Value.FirstOrDefault(x => x.Value == socket).Key;
+                    if (conn != null)
+                        return conn;
+                }
+            }
+            
             return connections[channel].FirstOrDefault(x => x.Value == socket).Key;
         }
 
-        public async Task RemoveSocketAsync(string id, string channel)
+        public async Task RemoveSocketAsync(string id)
         {
-            connections[channel].TryRemove(id, out WebSocket socket);
-            await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Connection closed", CancellationToken.None);
+            foreach (var item in connections.ToList())
+            {
+                var conn = item.Value.FirstOrDefault(x => x.Key == id);
+                if (conn.Key != null)
+                {
+                    connections[item.Key].TryRemove(id, out WebSocket s);
+                    await s.CloseAsync(WebSocketCloseStatus.NormalClosure, "Connection closed", CancellationToken.None);
+                    return;
+                }
+            }
         }
 
         public void AddSocket(WebSocket socket, string channel)

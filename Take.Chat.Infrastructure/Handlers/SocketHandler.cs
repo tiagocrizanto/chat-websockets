@@ -35,29 +35,17 @@ namespace Take.Chat.Infrastructure.Handlers
             });
         }
 
-        public virtual async Task OnDisconnected(WebSocket socket, string channel)
+        public virtual async Task OnDisconnected(WebSocket socket)
         {
-            await Connections.RemoveSocketAsync(Connections.GetId(socket, channel), channel);
+            await Connections.RemoveSocketAsync(Connections.GetId(socket, null));
         }
 
         public async Task SendMessage(WebSocket socket, string message)
         {
             if (socket.State != WebSocketState.Open)
-            {
                 return;
-            }
 
-            try
-            {
-                await socket.SendAsync(new ArraySegment<byte>(Encoding.ASCII.GetBytes(message), 0, message.Length), WebSocketMessageType.Text, true, CancellationToken.None);
-
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-
+            await socket.SendAsync(new ArraySegment<byte>(Encoding.ASCII.GetBytes(message), 0, message.Length), WebSocketMessageType.Text, true, CancellationToken.None);
         }
 
         public async Task SendMessage(string id, string message, string channel)
@@ -71,17 +59,6 @@ namespace Take.Chat.Infrastructure.Handlers
             foreach (var con in Connections.GetAllConnections(channel))
             {
                 await SendMessage(con.Value, message);
-            }
-        }
-
-        public async Task UpdateChannelList(IEnumerable<string> channels, string serializedChannels)
-        {
-            foreach (var channel in channels)
-            {
-                foreach (var con in Connections.GetAllConnections(channel))
-                {
-                    await SendMessage(con.Value, serializedChannels);
-                }
             }
         }
 

@@ -35,9 +35,11 @@ namespace Take.Chat.Web.Controllers
                 return View();
             }
 
+            Random rnd = new Random();
+
             chatMessagesBusiness.AddUserToChat(new ChatUsersDto
             {
-                Id = Guid.NewGuid(),
+                Id = rnd.Next(1000, 9999),
                 Name = userName
             });
 
@@ -57,8 +59,8 @@ namespace Take.Chat.Web.Controllers
             return Ok();
         }
 
-        [HttpPost]
-        public IActionResult Logoff(string userName)
+        [HttpGet]
+        public IActionResult Logoff([FromQuery]string userName)
         {
             chatUserBusiness.RemoveUserFromSession(userName);
             return Ok();
