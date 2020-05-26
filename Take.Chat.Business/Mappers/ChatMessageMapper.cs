@@ -15,7 +15,7 @@ namespace Take.Chat.Business.Mappers
         {
             return new ChatUsers
             {
-                Id = chatUsersDto.Id,
+                Id = 1,
                 Name = chatUsersDto.Name
             };
         }
@@ -24,7 +24,7 @@ namespace Take.Chat.Business.Mappers
         {
             return new ChatUsersDto
             {
-                Id = chatUsersDto.Id,
+                Id = 2,
                 Name = chatUsersDto.Name
             };
         }
@@ -33,7 +33,7 @@ namespace Take.Chat.Business.Mappers
         {
             return chatUsers.Select(x => new ChatUsersDto
             {
-                Id = x.Id,
+                Id = 3,
                 Name = x.Name
             });
         }

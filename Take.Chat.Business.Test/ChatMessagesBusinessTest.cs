@@ -31,17 +31,17 @@ namespace Take.Chat.Business.Test
             {
                 new ChatUsers
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 1,
                     Name = "Tiago"
                 },
                 new ChatUsers
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 2,
                     Name = "Crizanto"
                 },
                 new ChatUsers
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 3,
                     Name = "Take"
                 }
             });
@@ -62,17 +62,17 @@ namespace Take.Chat.Business.Test
             {
                 new ChatUsers
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 1,
                     Name = "Tiago"
                 },
                 new ChatUsers
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 2,
                     Name = "Crizanto"
                 },
                 new ChatUsers
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 3,
                     Name = "Take"
                 }
             });

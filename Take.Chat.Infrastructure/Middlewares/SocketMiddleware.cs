@@ -4,6 +4,7 @@ using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Take.Chat.Infrastructure.Handlers;
+using Take.Chat.Interfaces.Business;
 
 namespace Take.Chat.Infrastructure.Middlewares
 {
@@ -11,11 +12,12 @@ namespace Take.Chat.Infrastructure.Middlewares
     {
         private readonly RequestDelegate _next;
         private SocketHandler _webSocketHandler { get; set; }
-
-        public SocketMiddleware(RequestDelegate next, SocketHandler webSocketHandler)
+        private readonly IChannelBusiness channelBusiness;
+        public SocketMiddleware(RequestDelegate next, SocketHandler webSocketHandler, IChannelBusiness channelBusiness)
         {
             _next = next;
             _webSocketHandler = webSocketHandler;
+            this.channelBusiness = channelBusiness;
         }
 
         public async Task Invoke(HttpContext context)
@@ -25,12 +27,13 @@ namespace Take.Chat.Infrastructure.Middlewares
 
             var socket = await context.WebSockets.AcceptWebSocketAsync();
             string userName = context.Request.Query["userName"];
-            string channel = context.Request.Query["channel"];
 
-            if (string.IsNullOrEmpty(channel))
-                await _webSocketHandler.OnConnected(socket, userName);
-            else
+            var channels = channelBusiness.GetAllChannels();
+
+            foreach (var channel in channels)
+            {
                 await _webSocketHandler.OnConnected(socket, userName, channel);
+            }
 
             await Receive(socket, async (result, buffer) =>
             {
@@ -41,7 +44,7 @@ namespace Take.Chat.Infrastructure.Middlewares
                 }
                 else if (result.MessageType == WebSocketMessageType.Close)
                 {
-                    await _webSocketHandler.OnDisconnected(socket, channel);
+                    await _webSocketHandler.OnDisconnected(socket);
                     return;
                 }
 
